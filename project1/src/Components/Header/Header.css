@@ -1,0 +1,8 @@
+.slide-in {
+    transform: translateX(0); /* or any other transformation that suits your design */
+}
+
+.transition-transform {
+    transition-property: transform;
+    transition-timing-function: ease;
+}
