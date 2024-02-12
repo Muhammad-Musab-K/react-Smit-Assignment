@@ -1,7 +1,14 @@
-import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
-import { useState } from 'react'
+import { PhotoIcon } from '@heroicons/react/24/solid'
+import { useState ,useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { postingAd } from '../Firebase/Firebase'
+import { useMapEvents } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+import markerIcon from '../images/marker.png';
+
+
 
 export default function PostAd() {
 
@@ -9,6 +16,19 @@ export default function PostAd() {
     const [price, setPrice] = useState(0)
     const [description, setDescription] = useState('')
     const navigate = useNavigate()
+    const [location, setLocation] = useState()
+
+    
+
+
+    const customIcon = new L.Icon({
+        iconUrl: markerIcon,
+        iconSize: [32, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32],
+    });
+
+
 
     const [image, setImage] = useState(null);
 
@@ -16,6 +36,34 @@ export default function PostAd() {
         const file = e.target.files[0];
         setImage(file);
     };
+
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition((location) => {
+            const { latitude, longitude } = location.coords
+            setLocation({ latitude, longitude })
+            console.log(location)
+        })
+    }, [])
+    const position = [24.8256, 67.1563]; // Kharadar Police Choki, Karachi
+
+    function LocationMarker() {
+        const [position, setPosition] = useState(null)
+        const map = useMapEvents({
+            click() {
+                map.locate()
+            },
+            locationfound(e) {
+                setPosition(e.latlng)
+                map.flyTo(e.latlng, map.getZoom())
+            },
+        })
+
+        return position === null ? null : (
+            <Marker position={position}>
+                <Popup>You are here</Popup>
+            </Marker>
+        )
+    }
 
     const handleUpload = () => {
         if (selectedFile) {
@@ -25,10 +73,10 @@ export default function PostAd() {
         }
     };
 
-      const addAd= async ()=>{
-        await postingAd({product ,price , description , image})
+    const addAd = async () => {
+        await postingAd({ product, price, description, image ,location })
         alert("Added Successfully!")
-      }
+    }
 
     return (
         <>
@@ -81,7 +129,7 @@ export default function PostAd() {
                             </label>
                             <div className="mt-2">
                                 <input
-                                onChange={(e) => setProduct(e.target.value)}
+                                    onChange={(e) => setProduct(e.target.value)}
                                     type="text"
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
@@ -94,7 +142,7 @@ export default function PostAd() {
                             </label>
                             <div className="mt-2">
                                 <input
-                                onChange={(e) => setPrice(e.target.value)}
+                                    onChange={(e) => setPrice(e.target.value)}
                                     type="number"
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
@@ -106,12 +154,24 @@ export default function PostAd() {
                             </label>
                             <div className="mt-2">
                                 <input
-                                onChange={(e) => setDescription(e.target.value)}
+                                    onChange={(e) => setDescription(e.target.value)}
                                     type="text"
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
                         </div>
+                        <div>
+                            <MapContainer center={position} zoom={15} style={{ height: '600px', width: '600px' }}>
+                                {/* OpenStreetMap Tile Layer */}
+                                <TileLayer
+                                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                />
+                                <LocationMarker />
+
+                            </MapContainer>
+                        </div>
+
                     </div>
                 </div>
             </div>

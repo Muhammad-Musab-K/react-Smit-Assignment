@@ -8,12 +8,14 @@ import './Header.css'
 import { useNavigate } from 'react-router-dom'
 import Button from '../Mycompo/Button'
 import { motion } from 'framer-motion'
+import { signout } from '../../Firebase/Firebase'
 
 
 
 
 function Header() {
     const cartProducts = useSelector(getAllCAt)
+    const [user, setUser] = useState(false)
 
     const [hide, setHide] = useState(false)
     const responsiveNavbar = () => {
@@ -21,7 +23,7 @@ function Header() {
     };
 
     const navigate = useNavigate()
-    const handleGoBack=()=>{
+    const handleGoBack = () => {
         navigate(-1);
     }
 
@@ -50,38 +52,43 @@ function Header() {
                     <div className='hidden  lg:flex '>
                         <ul className='flex justify-between items-center'>
                             <Link to={'/products'}> <li className='mx-6 xl:mx-12 text-sm lg:text-normal  text-slate-400'>SHOP</li></Link>
-                            <li className='mx-6 xl:mx-12 text-sm lg:text-normal  text-slate-400'>ESSENTAILS</li>
+                            <Link to={'/postad'}> <li className='mx-6 xl:mx-12 text-sm lg:text-normal  text-slate-400'>POST AD</li></Link>
                             <Link to={'/'}><li className='logo  w-28 mb-10'><img src={logo} /></li></Link>
-                            <li className='mx-6 xl:mx-12 text-sm lg:text-normal  text-slate-400'>BEST SELLER</li>
-                            <li className='mx-6 xl:mx-12 text-sm lg:text-normal  text-slate-400'>ABOUT US</li>
+                                <Link to={'/addad'}><li className='mx-6 xl:mx-12 text-sm lg:text-normal  text-slate-400'>MY AD</li></Link>
+                                <li className='mx-6 xl:mx-12 text-sm lg:text-normal  text-slate-400'>ABOUT US</li>
                         </ul>
                     </div>
                     <div className='hidden  lg:flex'>
                         <ul className='flex'>
-                            <li className='mx-4'><i class="fa-regular fa-user text fa-xl text-slate-400"></i></li>
+                            <li onClick={() => setUser(prev => !prev)} className='mx-4 relative'>
+                                <i class="fa-regular fa-user text fa-xl text-slate-400"></i>
+                                {user && <div className='absolute w-28 p-3 rounded bg-blue-gray-200 '>
+                                    <p onClick={signout} className='cursor-pointer'>logout</p>
+                                </div>}
+                            </li>
                             <li className='mx-4'><i class="fa-regular fa-bell text fa-xl text-slate-400"></i></li>
                             <Link to={'/addtocart'}><li className='mx-4 relative'><div className="absolute flex justify-center items-center w-[15px] h-[16xpx] rounded-xl bg-red-700 right-0 top-0 text-white text-[9px]" >{cartProducts.length}</div><i class="fa-solid fa-bag-shopping text fa-xl text-slate-400"></i></li></Link>
                         </ul>
                     </div>
-                    <div className=' lg:hidden' onClick={responsiveNavbar} >{hide? <i className='fa-solid fa-xmark fa-xl text-slate-500'></i>:<i className='fa-solid fa-bars fa-xl text-slate-500'></i> }</div> 
+                    <div className=' lg:hidden' onClick={responsiveNavbar} >{hide ? <i className='fa-solid fa-xmark fa-xl text-slate-500'></i> : <i className='fa-solid fa-bars fa-xl text-slate-500'></i>}</div>
 
 
 
 
                 </div>
-                {hide && <motion.div initial={{y : -384}} animate={{y:0}} className=' z-50  h-96 w-screen absolute  mt-[80px] flex   bg-gray-100   '>
+                {hide && <motion.div initial={{ y: -384 }} animate={{ y: 0 }} className=' z-50  h-96 w-screen absolute  mt-[80px] flex   bg-gray-100   '>
                     <ul className='flex flex-col w-full justify-between items-center '>
                         <Link to='/products'><li className='mt-10 transition  ease-in-out  text-slate-400 hover:-translate-y-1 hover:scale-11 hover: duration-300 ...  '>SHOP</li></Link>
                         <hr className='h-[1px] bg-white ' />
-                        <Link  to='/products'> <li className='transition  ease-in-out  text-slate-400 hover:-translate-y-1 hover:scale-11 hover: duration-300 ... '>ESSENTAILS</li></Link>
+                        <Link to='/products'> <li className='transition  ease-in-out  text-slate-400 hover:-translate-y-1 hover:scale-11 hover: duration-300 ... '>ESSENTAILS</li></Link>
                         <hr className='h-[1px] bg-white ' />
-                        <Link  to='/products'><li className='transition  ease-in-out  text-slate-400 hover:-translate-y-1 hover:scale-11 hover: duration-300 ... ' >BEST SELLER</li></Link>
+                        <Link to='/products'><li className='transition  ease-in-out  text-slate-400 hover:-translate-y-1 hover:scale-11 hover: duration-300 ... ' >BEST SELLER</li></Link>
                         <hr className='h-[1px] bg-white ' />
                         <Link to={'/about'}> <li className=' mb-10 transition  ease-in-out  text-slate-400 hover:-translate-y-1 hover:scale-11 hover: duration-300 ...  '>ABOUT US</li></Link>
 
                     </ul>
                 </motion.div>}
-               
+
 
             </div>
         </>

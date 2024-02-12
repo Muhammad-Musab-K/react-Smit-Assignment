@@ -9,12 +9,23 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { AddtoCart } from '../redux/slices/product.slice'
 import { motion } from 'framer-motion'
+import { onAuthStateChanged } from 'firebase/auth'
+import { auth } from '../Firebase/Firebase'
 
 
 function Detail() {
 
   const [data, setData] = useState([])
   const [color, setColor] = useState(false);
+  const [user, setUser] = useState(null)
+
+  /////
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      setUser(user)
+    })
+  }, [])
+  /////
 
   const counter = () => {
     if (count < 1) {
@@ -49,7 +60,18 @@ function Detail() {
     </div>;
   }
 
+  
 
+  const AddInCart = () => {
+    if (user) {
+      console.log(user)
+      dispatch(AddtoCart({ id: data.id, qty: count }))
+      navigate('/addtocart')
+
+    } else {
+      navigate('/signin')
+    }
+  }
 
   return (
     <>
@@ -59,8 +81,9 @@ function Detail() {
 
         </div>
         <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className='w-full mt-4 md:mt-10 lg:mt-0 lg: lg:w-1/2 flex flex-col px-2 lg:px-10'>
-          <div className='flex justify-between w-full  '>
+          <div className='flex justify-between w-full'>
             <div className='price text-black text-2xl font-bold uppercase '>{data.title}</div>
+
             <div>
               <i
                 onClick={() => setColor(!color)}
@@ -68,14 +91,20 @@ function Detail() {
                 style={{ color: color ? color : "red" }}
               ></i>
             </div>
+
           </div>
+
           <div className='text-red-600 text-xl font-bold'>$ {data.price}</div>
+
           <div className='mt-2 w-20 h-8 flex justify-evenly items-center rounded-lg shadow'>
             <div onClick={counter}><i className='fa-solid fa-minus'></i></div>
             <div className='px-3 border rounded-lg'>{count}</div>
             <div onClick={() => setCount(count + 1)}><i className='fa-solid fa-plus'></i></div>
           </div>
-          <div><button onClick={() => dispatch(AddtoCart({ id: data.id, qty: count }))} className='w-full h-10 bg-blue-700 text-center text-white mt-4 hover:bg-slate-800 focus:ring-4 shadow-lg transform active:scale-75 transition-transform'>ADD TO CART</button></div>
+
+          <div><button onClick={AddInCart} className='w-full h-10 bg-blue-700 text-center text-white mt-4 hover:bg-slate-800 focus:ring-4 shadow-lg transform active:scale-75 transition-transform'>ADD TO CART</button>
+          </div>
+
           <div className='mt-4'>
             <Accordian data={data.description} name="Description" />
             <Accordian data={data.brand} name="Brand" />

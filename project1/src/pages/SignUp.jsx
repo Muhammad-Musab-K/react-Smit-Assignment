@@ -79,9 +79,14 @@ function SignIn() {
   
             <Link to={"/signup"}>
             <p className="mt-10 text-center text-sm text-gray-500">
-              Already Have Account?Click here
+              Not have account?Click here
             </p>
             </Link>
+            <Link to={"/forgotpass"}>
+                        <p className="mt-10 text-center text-sm text-red-500 underline">
+                            Forgot Password?
+                        </p>
+                    </Link>
           </div>
         </div>
       </>

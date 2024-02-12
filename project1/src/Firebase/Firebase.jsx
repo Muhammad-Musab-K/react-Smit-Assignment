@@ -1,12 +1,9 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword  , signOut ,updatePassword  ,sendEmailVerification  } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { getFirestore, collection, addDoc, getDocs, setDoc, getDoc, doc } from 'firebase/firestore';
-
-
-
 
 
 
@@ -71,3 +68,59 @@ export const login = async (userInfo) => {
   
     return ads
   }
+
+  export {auth}
+
+  // singOut
+
+  export const signout = ()=>{
+    signOut(auth).then(() => {
+       alert("signOut Successfully")
+    }).catch((error) => {
+      console.log(error)
+    })
+  }
+  
+
+
+  //forgot password
+  export const forgotPassword =()=>{
+    updatePassword(user, newPassword).then(() => {
+      alert("something is wrong")
+    }).catch((error) => {
+      alert("passowrd changed successfully")
+    });
+  }
+  
+
+
+  //FIREBASE AUTHNETICATION ,, OnAuthStateChanged
+
+  //first onstatechanged ka function firebase se lgao
+  //second phr login or logout wala scene bnao
+  //third phr login or logout pr jo jo pages dikhane ho wha jaoo
+
+  //  third wale ka code me yaha likh rha hoon
+
+
+  // useEffect(()=>{
+  //   onAuthStateChanged(auth , (user)=>{
+  //     setUser(user)
+  //     setLoading(false)
+  //   })
+  // } , [])
+
+  // useEffect(()=>{
+  //   const path = window.location.pathname
+  //   if(user){
+  //     if(path === '/register' || path === '/login'){
+  //       Navigate("/")
+  //     }
+  //     else{
+  //       if(path === '/' || or jo jo pages add krne hen krdo){
+  //         Navigate('/')
+  //       }
+  //     }
+  //   }  
+
+  // },[window.location.pathname , user])
