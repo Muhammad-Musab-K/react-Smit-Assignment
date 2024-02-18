@@ -80,9 +80,9 @@ function Header() {
                     <ul className='flex flex-col w-full justify-between items-center '>
                         <Link to='/products'><li className='mt-10 transition  ease-in-out  text-slate-400 hover:-translate-y-1 hover:scale-11 hover: duration-300 ...  '>SHOP</li></Link>
                         <hr className='h-[1px] bg-white ' />
-                        <Link to='/products'> <li className='transition  ease-in-out  text-slate-400 hover:-translate-y-1 hover:scale-11 hover: duration-300 ... '>ESSENTAILS</li></Link>
+                        <Link to='/postad'> <li className='transition  ease-in-out  text-slate-400 hover:-translate-y-1 hover:scale-11 hover: duration-300 ... '>POST AD</li></Link>
                         <hr className='h-[1px] bg-white ' />
-                        <Link to='/products'><li className='transition  ease-in-out  text-slate-400 hover:-translate-y-1 hover:scale-11 hover: duration-300 ... ' >BEST SELLER</li></Link>
+                        <Link to='/addad'><li className='transition  ease-in-out  text-slate-400 hover:-translate-y-1 hover:scale-11 hover: duration-300 ... ' >MY ADS</li></Link>
                         <hr className='h-[1px] bg-white ' />
                         <Link to={'/about'}> <li className=' mb-10 transition  ease-in-out  text-slate-400 hover:-translate-y-1 hover:scale-11 hover: duration-300 ...  '>ABOUT US</li></Link>
 

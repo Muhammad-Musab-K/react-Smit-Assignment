@@ -17,7 +17,7 @@ function Third() {
                     <div className='flex flex-col lg:flex-row'>
                         <div>
                             <Card image={mask} id='6' title="Quality mask" />
-                            </div>
+                        </div>
                         <div className='md:hidden lg:block'><Card image={pad} id='8' title="Stay free ultra pad" />
                         </div>
                     </div>

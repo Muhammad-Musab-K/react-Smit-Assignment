@@ -18,8 +18,6 @@ export default function PostAd() {
     const navigate = useNavigate()
     const [location, setLocation] = useState()
 
-    
-
 
     const customIcon = new L.Icon({
         iconUrl: markerIcon,
@@ -44,7 +42,7 @@ export default function PostAd() {
             console.log(location)
         })
     }, [])
-    const position = [24.8256, 67.1563]; // Kharadar Police Choki, Karachi
+    const position = [24.8256, 67.1563];
 
     function LocationMarker() {
         const [position, setPosition] = useState(null)
