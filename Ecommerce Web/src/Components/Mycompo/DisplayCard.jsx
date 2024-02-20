@@ -16,8 +16,6 @@ function DisplayCard() {
         dispatch(getAllData());
     }, [dispatch]);
   
- 
-   
     return (
         <>
             {products?.map((item, index) => {

@@ -8,13 +8,13 @@ import { getFirestore, collection, addDoc, getDocs, setDoc, getDoc, doc } from '
 
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCDsw4bInfKQjLE1cAUcxOIDegZ2CA7ofo",
-    authDomain: "e-commerce-c3aa1.firebaseapp.com",
-    projectId: "e-commerce-c3aa1",
-    storageBucket: "e-commerce-c3aa1.appspot.com",
-    messagingSenderId: "364514558945",
-    appId: "1:364514558945:web:c2d2acf3e85dc4e251c8a0",
-    measurementId: "G-1DBBTK63LW"
+  apiKey: "AIzaSyC69kQc49aWKEAUvxHpUo3AYHuMp6jghz0",
+  authDomain: "ecommerce-899ad.firebaseapp.com",
+  projectId: "ecommerce-899ad",
+  storageBucket: "ecommerce-899ad.appspot.com",
+  messagingSenderId: "105773076101",
+  appId: "1:105773076101:web:555a8ef99fd3cebcb4a3ec",
+  measurementId: "G-E6YME5VW56"
 };
 
 
@@ -41,18 +41,39 @@ export const login = async (userInfo) => {
 }
 
 
-  export  async function postingAd(ad) {
-    const storageRef = ref(storage, `ads/${ad.image.name}`);
+  // export  async function postingAd(ad) {
+  //   for(i = 0;i<ad.image.length;i++){
+  //     const storageRef = ref(storage, `ads/${ad.image[i].name}`);
   
-    await uploadBytes(storageRef, ad.image)
-    const url = await getDownloadURL(storageRef)
+  //     await uploadBytes(storageRef, ad.image[i])
+  //   }
+    
+  //   const url = await getDownloadURL(storageRef)
   
-    ad.image = url
+  //   ad.image = url
   
-    await addDoc(collection(db, "ads"), ad)
-    alert('Data added successfully!')
+  //   await addDoc(collection(db, "ads"), ad)
+  //   alert('Data added successfully!')
   
-  }
+  // }
+
+  export async function postingAd(ad) {
+    const imageUrls = [];
+
+    // Upload each image to Firebase Storage
+    for (const image of ad.images) {
+        const storageRef = ref(storage, `ads/${image.name}`);
+        await uploadBytes(storageRef, image);
+        const imageUrl = await getDownloadURL(storageRef);
+        imageUrls.push(imageUrl); // Store the URL of each image
+    }
+
+    ad.images = imageUrls;
+
+    await addDoc(collection(db, "ads"), ad);
+
+    alert('Data added successfully!');
+}
 
 
   // get ads from database,firestore

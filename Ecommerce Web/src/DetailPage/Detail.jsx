@@ -88,7 +88,7 @@ function Detail() {
               <i
                 onClick={() => setColor(!color)}
                 className={`fa-solid fa-heart`}
-                style={{ color: color ? color : "red" }}
+                style={{ color: color ? "red" : color }}
               ></i>
             </div>
 

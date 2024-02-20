@@ -19,8 +19,8 @@ function MyAdd() {
         <>
         <div className='flex justify-center'>
             {ads?.map((item, index) => {
-                const { product, image, description } = item;
-                return <Card title={product} image={image} />;
+                const { product, images , description } = item;
+                return <Card title={product} image={images[0]} />;
             })}
             </div>
         </>

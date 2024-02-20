@@ -28,11 +28,11 @@ export default function PostAd() {
 
 
 
-    const [image, setImage] = useState(null);
+    const [images, setImages] = useState();
 
     const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        setImage(file);
+        const file = e.target.files;
+        setImages(file);
     };
 
     useEffect(() => {
@@ -72,7 +72,7 @@ export default function PostAd() {
     };
 
     const addAd = async () => {
-        await postingAd({ product, price, description, image ,location })
+        await postingAd({ product, price, description, images ,location })
         alert("Added Successfully!")
     }
 
@@ -103,6 +103,7 @@ export default function PostAd() {
                                             <input id="file-upload"
                                                 name="file-upload"
                                                 type="file"
+                                                multiple
                                                 className="sr-only"
                                                 onChange={handleFileChange}
                                             />
